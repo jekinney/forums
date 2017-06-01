@@ -9,13 +9,8 @@
                     {{ $reply->created_at->diffForHumans() }}...
                 </h5>
                 
-                <form action="/replies/{{ $reply->id }}/favorites" method="post">
-                    {{ csrf_field() }}
-                    <button type="submit" class="btn btn-sm btn-link" {{ $reply->isFavorited()? 'disabled' : '' }}>
-                        {{ $reply->favorites_count }} {{ str_plural('Favorite', $reply->favorites_count) }}
-                    </button>
-                </form>
-
+                <favorite :reply="{{ $reply }}"></favorite>
+                
             </div>
         </header>
 
@@ -34,11 +29,7 @@
                 </div>
                 <div v-else class="level">
                     <button type="button" @click="editing = true" class="btn btn-xs btn-info mr-1">Edit</button>
-                    <form action="/replies/{{ $reply->id }}" method="post">
-                        {{ method_field('DELETE') }}
-                        {{ csrf_field() }}
-                        <button type="submit" class="btn btn-xs btn-danger">Delete</button>
-                    </form>
+                    <button type="button" @click="destroy" class="btn btn-xs btn-danger">Delete</button>
                 </div>
             </footer>
         @endcan

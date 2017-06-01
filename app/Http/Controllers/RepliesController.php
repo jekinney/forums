@@ -102,6 +102,10 @@ class RepliesController extends Controller
 
         $reply->delete();
 
+        if(request()->expectsJson()) {
+            return response()->json(['status' => 'Reply has been deleted!']);
+        }
+        
         return back()->with('flash', 'Reply has been deleted.');
     }
 }
