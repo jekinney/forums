@@ -19,6 +19,16 @@ class User extends Authenticatable
     ];
 
     /**
+     * Get the route key for the model.
+     *
+     * @return string
+     */
+    public function getRouteKeyName()
+    {
+        return 'name';
+    }
+
+    /**
      * The attributes that should be hidden for arrays.
      *
      * @var array
@@ -26,4 +36,25 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    // relationships
+    public function threads()
+    {
+        return $this->hasMany(Thread::class)->latest();
+    }
+
+    public function replies() 
+    {
+        return $this->hasMany(Reply::class);
+    }
+
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class);
+    }
+
+    public function activity()
+    {
+        return $this->hasMany(Activity::class);
+    }
 }

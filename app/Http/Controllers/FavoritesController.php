@@ -3,12 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Reply;
-use App\Thread;
+use App\Favorite;
 use Illuminate\Http\Request;
 
-class RepliesController extends Controller
+class FavoritesController extends Controller
 {
-    function __construct()
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
     {
         $this->middleware('auth');
     }
@@ -36,20 +41,12 @@ class RepliesController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  string $channel
-     * @param  \App\Thread $thread
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store($channel, Thread $thread)
+    public function store(Reply $reply)
     {
-        $this->validate(request(), [
-            'body' => 'required',
-        ]);
-        
-        $thread->addReply([
-            'body' => request('body'),
-            'user_id' => auth()->id(),
-        ]);
+        $reply->favorite();
 
         return back();
     }
@@ -57,10 +54,10 @@ class RepliesController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Reply  $reply
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Reply $reply)
+    public function show($id)
     {
         //
     }
@@ -68,10 +65,10 @@ class RepliesController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Reply  $reply
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Reply $reply)
+    public function edit($id)
     {
         //
     }
@@ -80,10 +77,10 @@ class RepliesController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Reply  $reply
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Reply $reply)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -91,10 +88,10 @@ class RepliesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Reply  $reply
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Reply $reply)
+    public function destroy($id)
     {
         //
     }
