@@ -23,6 +23,29 @@ class Reply extends Model
      */
     protected $with = ['owner', 'favorites'];
 
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = ['favoritesCount', 'isFavorited'];
+
+     /**
+     * Boot the reply instance.
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created(function ($reply) {
+            $reply->thread->increment('replies_count');
+        });
+
+        static::deleted(function ($reply) {
+            $reply->thread->decrement('replies_count');
+        });
+    }
+
 	// Relationships
     /**
      * A reply has an owner.
@@ -44,15 +67,15 @@ class Reply extends Model
     	return $this->belongsTo(Thread::class);
     }
 
-    /**
-     * A reply can have favorites.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\morphMany
-     */
-    public function favorites()
-    {
-        return $this->morphMany(favorite::class, 'favoritable');
-    }
-
     // Helpers and Queries
+
+        /**
+     * Determine the path to the reply.
+     *
+     * @return string
+     */
+    public function path()
+    {
+        return $this->thread->path() . "#reply-{$this->id}";
+    }
 }

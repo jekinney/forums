@@ -1,10 +1,12 @@
-<section class="panel panel-default">
-    <header class="panel-heading level">
-        <h1 class="panel-title">{{ $profileUser->name }} created a thread: 
-        	<a href="{{ $activity->subject->path() }}">{{ $activity->subject->title }}</a></h1>
-    </header>
+@component('profiles.activities.activity')
 
-    <article class="panel-body">
+	@slot('heading')
+		{{ $profileUser->name }} created a thread: 
+        <a href="{{ $activity->subject->path() }}">{{ $activity->subject->title }}</a>
+	@endslot
+
+	@slot('body')
 		{{ $activity->subject->body }}
-    </article>
-</section>
+	@endslot
+
+@endcomponent

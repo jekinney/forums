@@ -10,24 +10,43 @@ trait RecordsActivity
 	{
 		if(auth()->guest()) return;
 		
-		static::created(function($model) {
-			$model->recordActivity('created');
-		});
+		foreach (static::getActivitiesToRecord() as $event) {
+            static::$event(function ($model) use ($event) {
+                $model->recordActivity($event);
+            });
+        }
 
-		static::deleted(function($model) {
-			$model->recordActivity('deleted');
-		});
-
-		static::updated(function($model) {
-			$model->recordActivity('updated');
-		});
+        static::deleting(function($model) {
+        	$model->activity()->delete();
+        });
 	}
 
+	 /**
+     * Fetch the activity relationship.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
 	public function activity() 
 	{
 		return $this->morphMany(Activity::class, 'subject');
 	}
 
+	/**
+     * Fetch all model events that require activity recording.
+     *
+     * @return array
+     */
+    protected static function getActivitiesToRecord()
+    {
+        return ['created'];
+    }
+
+    
+    /**
+     * Record new activity for the model.
+     *
+     * @param string $event
+     */
 	protected function recordActivity($event)
 	{
 		$this->activity()->create([
@@ -36,6 +55,13 @@ trait RecordsActivity
 		]);
 	}
 
+
+    /**
+     * Determine the activity type.
+     *
+     * @param  string $event
+     * @return string
+     */
 	protected function getActivityType($event)
 	{
 		$type = strtolower((new \ReflectionClass($this))->getShortName());

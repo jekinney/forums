@@ -22,31 +22,7 @@
 
 
                 @foreach($replies as $reply)
-                    <section class="panel panel-default">
-                        
-                        <header class="panel-heading">
-                            <div class="level">
-
-                                <h5 class="flex">
-                                    <a href="{{ route('profile', $reply->owner) }}" >{{ $reply->owner->name }} </a> replied
-                                    {{ $reply->created_at->diffForHumans() }}...
-                                </h5>
-                                
-                                <form action="/replies/{{ $reply->id }}/favorites" method="post">
-                                    {{ csrf_field() }}
-                                    <button type="submit" class="btn btn-sm btn-link" {{ $reply->isFavorited()? 'disabled' : '' }}>
-                                        {{ $reply->favorites_count }} {{ str_plural('Favorite', $reply->favorites_count) }}
-                                    </button>
-                                </form>
-
-                            </div>
-                        </header>
-
-                        <article class="panel-body">
-                            {{ $reply->body }}
-                        </article>
-
-                    </section>
+                    @include('replies.index')
                 @endforeach
 
                 {{ $replies->links() }}

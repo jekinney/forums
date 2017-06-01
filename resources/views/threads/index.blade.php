@@ -7,13 +7,13 @@
                 
                 @forelse($threads as $thread)
                     <section class="panel panel-default">
-                        <heading class="panel-heading level">
+                        <header class="panel-heading level">
                             <h4 class="flex"><a href="{{ $thread->path() }}">{{ $thread->title }}</a></h4>
                             
                             <a href="{{ $thread->path() }}">
                                 {{ $thread->replies_count }} {{ str_plural('reply', $thread->replies_count) }}
                             </a>
-                        </heading>
+                        </header>
 
                         <article class="panel-body">                        
                             {{ $thread->body }}

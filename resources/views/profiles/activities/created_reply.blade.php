@@ -1,11 +1,12 @@
-<section class="panel panel-default">
-    <header class="panel-heading level">
-        <h2 class="panel-title">{{ $profileUser->name }} replied to 
-        	<a href="{{  $activity->subject->thread->path()}}">{{ $activity->subject->thread->title }}</a>
-        </h2>
-    </header>
+@component('profiles.activitIes.activity')
 
-    <article class="panel-body">
+	@slot('heading')
+		{{ $profileUser->name }} replied to 
+        <a href="{{ $activity->subject->thread->path() }}">{{ $activity->subject->thread->title }}</a>
+	@endslot
+
+	@slot('body')
 		{{ $activity->subject->body }}
-    </article>
-</section>
+	@endslot
+
+@endcomponent
