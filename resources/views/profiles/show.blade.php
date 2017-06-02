@@ -8,14 +8,20 @@
                     <h1>{{ $profileUser->name }} <small>Since {{ $profileUser->created_at->diffForHumans() }}</small></h1>
                 </header>
 
-                @foreach($activities as $date => $activity)
+                @forelse($activities as $date => $activity)
                     <h3 class="page-header">{{ $date }}</h3>
                     @foreach($activity as $record)
                         @if(view()->exists("profiles.activities.{$record->type}"))
                             @include("profiles.activities.{$record->type}", ['activity' => $record]) 
                         @endif
                     @endforeach
-                @endforeach
+                @empty
+                    <div class="panel panel-default">
+                        <article class="panel-body">
+                            <p class="text-center">No Activity for this user.</p>
+                        </article>
+                    </div>
+                @endforelse
                 
                 <footer class="text-center"> 
                 </footer>

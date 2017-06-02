@@ -7,12 +7,14 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
+    <meta name="auth" content="{{ auth()->check() }}">
+    <meta name="user" content="{{ auth()->user() }}">
+    
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Styles -->
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
-
+    
     <style>
         body {
             padding-bottom: 100px;
